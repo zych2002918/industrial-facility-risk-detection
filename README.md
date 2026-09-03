@@ -19,17 +19,14 @@
 
 ## 技术路线（复现口径）
 
-```
-无人机/固定摄像头 → 图像/视频帧 → 缺陷检测模型(YOLO 改进) → 风险标记/报告
-                                          ↓
-                             边缘部署（ONNX / RKNN / TensorRT）
-```
+![系统架构](assets/architecture.png)
 
 - **检测引擎**：复用开源的钢轨缺陷 YOLO11 改进工程 [`rail-surface-defect-yolo11`](https://github.com/zych2002918/rail-surface-defect-yolo11)
   （含 LSDECD 检测头 / FDPN / ODConv / 通道剪枝等改进模块），作为缺陷检测基座
 - **轻量化/注意力可选增强**（对应任务书改进方向）：Ghost/MobileNetV3 轻量主干、SE/CBAM/BiFormer 注意力、
   DyHead 检测头、MPDIoU 损失等——按部署平台算力酌情启用
 - **边缘部署**：PyTorch → ONNX → RKNN(瑞芯微) / TensorRT，量化后适配边缘设备
+- **闭环迭代**：边缘侧回传误检/漏检样本 → 重新标注训练 → 发布新版模型（持续优化）
 
 ## 仓库结构
 
@@ -60,15 +57,15 @@ git clone https://github.com/zych2002918/rail-surface-defect-yolo11.git engines/
 pip install -r requirements.txt
 pip install -r engines/rail-yolo11/requirements.txt
 
-# 3. 数据准备（见 docs/技术方案_脱敏.md 与 data/defects_sample.yaml）
-python scripts/prepare_data.py --dataset public
+# 3. 数据准备（公开替代数据，见 docs/技术方案_脱敏.md 与 data/defects_sample.yaml）
+python scripts/prepare_data.py --dataset neu-det --root ./datasets
 
 # 4. 训练 / 推理
-python scripts/train.py --data data/defects_sample.yaml --epochs 100
-python scripts/detect.py --weights runs/train/exp/weights/best.pt --source <视频或图片>
+python scripts/train.py --engine engines/rail-yolo11 --data data/defects_sample.yaml --epochs 100
+python scripts/detect.py --engine engines/rail-yolo11 --weights runs/train/exp/weights/best.pt --source <视频或图片>
 
 # 5. 边缘部署
-python scripts/export_onnx.py --weights runs/train/exp/weights/best.pt --imgsz 640
+python scripts/export_onnx.py --engine engines/rail-yolo11 --weights runs/train/exp/weights/best.pt --imgsz 640
 ```
 
 ## 许可
