@@ -20,7 +20,7 @@ test: images/test
 #  1) NEU-DET（热轧钢表面缺陷 6 类，1800 张）：
 #     http://faculty.neu.edu.cn/songkechen/zh_CN/zdylm/263270/list/
 #     （kaggle: "NEU-DET" 镜像更易下载）
-#  2) Robofolow Universe 搜索：cable tray / pipe defect / industrial inspection
+#  2) Roboflow Universe 搜索：cable tray / pipe defect / industrial inspection
 #     （选 public 数据集，注意其各自 license）
 #  3) 变化检测（场景级）：LEVIR-CD（遥感建筑变化，可用作"变化区域"概念验证）
 #
