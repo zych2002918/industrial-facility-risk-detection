@@ -1,0 +1,6 @@
+numpy>=1.24
+opencv-python>=4.6
+torch>=2.0
+torchvision>=0.15
+pyyaml>=6.0
+# 检测引擎依赖（rail-surface-defect-yolo11 自带改进版 ultralytics，无需 pip 安装 ultralytics）

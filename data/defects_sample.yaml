@@ -1,0 +1,29 @@
+# 智能化工业设施风险检测 - 目标类别定义（脱敏模板）
+# 生产数据集受协议保护；本文件为类别结构与公开替代数据指引。
+# 用法：复制为 data/defects.yaml 并按实际数据修改 train/val/test 路径。
+
+# 目标类别（可按实际数据映射/增删）
+names:
+  0: cable_tray_cover_missing   # 线缆槽盒盖缺失
+  1: pipe_damage                # 管道受损
+  2: material_collapse          # 材料堆坍塌
+  3: leakage                    # 渗漏/异常（可选）
+
+# 数据集路径（公开替代数据示例结构，YOLO 格式）
+path: ./datasets/industrial
+train: images/train
+val: images/valid
+test: images/test
+
+# ------------------------------------------------------------------
+# 公开替代数据指引（无需授权即可下载）：
+#  1) NEU-DET（热轧钢表面缺陷 6 类，1800 张）：
+#     http://faculty.neu.edu.cn/songkechen/zh_CN/zdylm/263270/list/
+#     （kaggle: "NEU-DET" 镜像更易下载）
+#  2) Robofolow Universe 搜索：cable tray / pipe defect / industrial inspection
+#     （选 public 数据集，注意其各自 license）
+#  3) 变化检测（场景级）：LEVIR-CD（遥感建筑变化，可用作"变化区域"概念验证）
+#
+# 若使用 NEU-DET 等与类别不匹配的数据，请把 names 映射为实际类别
+# （如 0: crazing 1: inclusion ...），本文件仅为结构示例。
+# ------------------------------------------------------------------
